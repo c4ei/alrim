@@ -1,4 +1,4 @@
-﻿
+﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -33,7 +33,7 @@ const db = require('./config/db');
 // 라우터 연결
 const authRoutes = require('./routes/authRoutes');
 const classRoutes = require('./routes/classRoutes');
-const studentRoutes = require('./routes/studentRoutes');
+const studentRoutes = require('./routes/studentRoutes');  // 학생 관련 라우터
 const albumRoutes = require('./routes/albumRoutes');
 
 app.use('/api/auth', authRoutes);

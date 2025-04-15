@@ -1,0 +1,22 @@
+﻿<%- include('layout') %>
+
+<h1>학급 앨범</h1>
+<p>학급의 소중한 순간들을 함께 담은 앨범입니다!</p>
+
+<form action="/class_album/upload" method="POST" enctype="multipart/form-data">
+  <label for="classImage">학급 사진 업로드:</label>
+  <input type="file" name="classImage" id="classImage" required>
+  <button type="submit">업로드</button>
+</form>
+
+<h2>학급 앨범 사진</h2>
+<ul>
+  <% photos.forEach(function(photo) { %>
+    <li>
+      <img src="<%= photo.image_url %>" alt="학급 앨범 사진">
+      <form action="/class_album/delete/<%= photo.id %>" method="POST">
+        <button type="submit">삭제</button>
+      </form>
+    </li>
+  <% }); %>
+</ul>

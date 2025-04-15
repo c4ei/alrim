@@ -1,0 +1,45 @@
+﻿kidsnote_notice_system_full/
+├── config/
+│   ├── db.js
+│   └── jwtConfig.js
+│
+├── controllers/
+│   ├── authController.js
+│   ├── classController.js
+│   ├── studentController.js
+│   ├── teacherController.js
+│   └── albumController.js
+│
+├── middlewares/
+│   ├── authMiddleware.js
+│   └── uploadMiddleware.js
+│
+├── models/
+│   ├── User.js
+│   ├── Class.js
+│   ├── Student.js
+│   └── Album.js
+│
+├── routes/
+│   ├── authRoutes.js
+│   ├── classRoutes.js
+│   ├── studentRoutes.js
+│   └── albumRoutes.js
+│
+├── public/
+│   └── uploads/
+│       └── (업로드된 이미지 파일)
+│
+├── /views
+  ├── index.ejs               # 메인 페이지 (홈)
+  ├── student_album.ejs        # 학생 앨범 페이지
+  ├── class_album.ejs          # 학급 앨범 페이지
+  ├── login.ejs                # 로그인 페이지
+  ├── teacher_dashboard.ejs    # 선생님 대시보드
+  └── layout.ejs               # 기본 레이아웃
+│
+├── app.js
+├── package.json
+└── .env
+
+

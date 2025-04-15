@@ -1,4 +1,6 @@
-﻿kidsnote_notice_system_full/
+﻿https://github.com/c4ei/alrim
+
+kidsnote_notice_system_full/
 ├── config/
 │   ├── db.js
 │   └── jwtConfig.js

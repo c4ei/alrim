@@ -1,9 +1,9 @@
-﻿﻿﻿﻿const express = require('express');
+﻿﻿const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
 
-// Register route
+// 회원가입 라우트
 router.post('/register', async (req, res) => {
   try {
     await registerUser(req, res);
@@ -15,7 +15,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Get register form
+// 회원가입 폼 가져오기
 router.get('/register', (req, res) => {
   const title = '회원가입';
   res.render('register', { title: title }, (err, html) => {
@@ -27,10 +27,10 @@ router.get('/register', (req, res) => {
   });
 });
 
-// Login route
+// 로그인 라우트
 router.post('/login', loginUser);
 
-// Get login form
+// 로그인 폼 가져오기
 router.get('/login', (req, res) => {
   const title = '로그인';
   res.render('login', { title: title }, (err, html) => {
@@ -42,7 +42,7 @@ router.get('/login', (req, res) => {
   });
 });
 
-// Google login
+// 구글 로그인
 router.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email']
 }));

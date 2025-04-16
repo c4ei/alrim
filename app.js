@@ -1,4 +1,4 @@
-﻿﻿﻿// /kidsnote_3838/app.js
+﻿﻿﻿﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 
-// 미들웨어
+// 미들웨어 (Middleware)
 const i18next = require('./config/i18n');
 
 app.use(cors());

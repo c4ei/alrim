@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const pool = require('../config/db');
 const passport = require('passport');
 
-// 회원가입
+// 회원 가입
 const registerUser = async (req, res) => {
   const { username, password, email, role, organization } = req.body;
 

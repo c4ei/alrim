@@ -1,4 +1,6 @@
-<h1><%= post.title %></h1>
+<%- include('../partials/top') %>
+
+<h1><%= post && post.title ? post.title : '' %></h1>
 
 <p><%= post.content %></p>
 
@@ -9,3 +11,5 @@
 </form>
 
 <a href="/posts">목록으로</a>
+
+<%- include('../partials/bottom') %>

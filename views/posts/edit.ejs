@@ -1,3 +1,5 @@
+<%- include('../partials/top') %>
+
 <h1>게시글 수정</h1>
 
 <form action="/posts/<%= post.id %>?_method=PUT" method="POST">
@@ -13,3 +15,4 @@
 </form>
 
 <a href="/posts">목록으로</a>
+<%- include('../partials/bottom') %>

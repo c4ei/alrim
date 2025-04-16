@@ -1,4 +1,4 @@
-﻿﻿﻿const express = require('express');
+﻿﻿﻿﻿const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
@@ -54,14 +54,14 @@ router.get('/kakao', passport.authenticate('kakao'));
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('/');
+    res.redirect('/teacher');
   });
 
 // 카카오 로그인 콜백
 router.get('/kakao/callback',
   passport.authenticate('kakao', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('/');
+    res.redirect('/teacher');
   });
 
 module.exports = router;

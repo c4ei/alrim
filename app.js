@@ -1,4 +1,4 @@
-﻿﻿﻿﻿// /kidsnote_3838/app.js
+﻿﻿﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -51,7 +51,11 @@ app.use('/api/students', studentRoutes);
 app.use('/api/albums', albumRoutes);
 
 app.get('/teacher', (req, res) => {
-  res.render('teacher_dashboard', { title: '선생님 대시보드' });
+  res.render('teacher_dashboard', { title: '선생님 대시보드', i18next: i18next });
+});
+
+app.get('/teacher_dashboard', (req, res) => {
+  res.render('teacher_dashboard', { title: '선생님 대시보드', i18next: i18next });
 });
 
 app.set('view engine', 'ejs');

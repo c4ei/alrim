@@ -7,7 +7,7 @@ i18next
   .use(LanguageDetector)
   .init({
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     ns: ['translation'],
     defaultNS: 'translation',
     backend: {

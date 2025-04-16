@@ -45,7 +45,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign({ user: { id: user[0].id, username: user[0].username, role: user[0].role } }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     if (user[0].role === 'teacher') {
-      res.redirect('/teacher_dashboard');
+      res.redirect('/teacher');
     } else {
       res.redirect('/student_album');
     }

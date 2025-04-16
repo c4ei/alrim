@@ -1,2 +1,11 @@
-﻿﻿<h1><%= i18next.t('선생님 대시보드') %></h1>
-<p>선생님이 관리할 수 있는 대시보드입니다. 학생 앨범과 학급 앨범을 관리하고, 학습 진도를 추적할 수 있습니다.</p>
+﻿﻿﻿<h1><%= i18next.t('선생님 대시보드') %></h1>
+<p><%= i18next.t('선생님이 관리할 수 있는 대시보드입니다. 학생 앨범과 학급 앨범을 관리하고, 학습 진도를 추적할 수 있습니다.') %></p>
+
+<ul>
+    <li><a href="/student_attendance"><%= i18next.t('학생 등하교 관리') %></a></li>
+    <li><a href="/medication_time"><%= i18next.t('약 먹이는 시간 확인') %></a></li>
+    <li><a href="/drop_off_pick_up"><%= i18next.t('등하원 관리') %></a></li>
+    <li><a href="/student_attendance"><%= i18next.t('아이 출석 관리') %></a></li>
+    <li><a href="/album_management"><%= i18next.t('앨범 관리') %></a></li>
+    <li><a href="/parent_communication"><%= i18next.t('학부모와의 소통') %></a></li>
+</ul>

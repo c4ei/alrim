@@ -6,7 +6,7 @@ const passport = require('passport');
 
 // 회원가입
 const registerUser = async (req, res) => {
-  const { username, password, email } = req.body;
+  const { username, password, email, role, organization } = req.body;
 
   try {
     const [userExists] = await pool.execute('SELECT * FROM users WHERE email = ?', [email]);
@@ -17,7 +17,7 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await pool.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hashedPassword]);
+    await pool.execute('INSERT INTO users (username, email, password, role, organization) VALUES (?, ?, ?, ?, ?)', [username, email, hashedPassword, role, organization]);
     res.status(201).json({ msg: '회원가입 성공' });
   } catch (error) {
     console.error(error);
@@ -42,9 +42,13 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ msg: '이메일 또는 비밀번호가 잘못되었습니다.' });
     }
 
-    const token = jwt.sign({ user: { id: user[0].id, username: user[0].username } }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ user: { id: user[0].id, username: user[0].username, role: user[0].role } }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).json({ token });
+    if (user[0].role === 'teacher') {
+      res.redirect('/teacher_dashboard');
+    } else {
+      res.redirect('/student_album');
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: '서버 오류' });
@@ -62,4 +66,3 @@ const kakaoLogin = passport.authenticate('kakao', {
 });
 
 module.exports = { registerUser, loginUser, googleLogin, kakaoLogin };
-

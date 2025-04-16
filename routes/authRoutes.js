@@ -1,9 +1,26 @@
-﻿
+﻿﻿﻿﻿﻿
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+const { registerUser, loginUser } = require('../controllers/authController');
 
-// 구글 로그인
+// Register route
+router.post('/register', registerUser);
+
+// Get register form
+router.get('/register', (req, res) => {
+  res.render('register', { title: '회원가입' });
+});
+
+// Login route
+router.post('/login', loginUser);
+
+// Get login form
+router.get('/login', (req, res) => {
+  res.render('login', { title: '로그인' });
+});
+
+// Google login
 router.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email']
 }));

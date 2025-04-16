@@ -15,7 +15,8 @@ const authMiddleware = (req, res, next) => {
     req.user = decoded.user;
     next();
   } catch (err) {
-    return res.status(401).json({ msg: '토큰 인증 실패' });
+    console.error("토큰 인증 실패:", err);
+    return res.status(401).json({ msg: '토큰 인증 실패', error: err.message });
   }
 };
 

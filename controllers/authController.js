@@ -42,7 +42,7 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ msg: '이메일 또는 비밀번호가 잘못되었습니다.' });
     }
 
-    const token = jwt.sign({ user: { id: user[0].id, username: user[0].username, role: user[0].role } }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ user: { user_id: user[0].user_id, username: user[0].username, role: user[0].role } }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     if (user[0].role === 'teacher') {
       res.redirect('/teacher');

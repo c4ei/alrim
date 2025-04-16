@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // 게시글 목록 조회
 router.get('/posts', postController.index);
@@ -9,7 +10,7 @@ router.get('/posts', postController.index);
 router.get('/posts/new', postController.new);
 
 // 게시글 작성
-router.post('/posts', postController.create);
+router.post('/posts', authMiddleware, postController.create);
 
 // 특정 게시글 조회
 router.get('/posts/:id', postController.show);

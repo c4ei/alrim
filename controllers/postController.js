@@ -19,10 +19,17 @@ exports.new = (req, res) => {
 exports.create = async (req, res) => {
   try {
     const { title, content, isSecret } = req.body;
+    
+    // 사용자 권한 확인 (선생님, 관리자 또는 부모님만 게시글 작성 가능)
+    if (req.user.role !== 'teacher' && req.user.role !== 'admin' && req.user.role !== 'parent') {
+      return res.status(403).send("게시글 작성 권한이 없습니다.");
+    }
+
     const [result, fields] = await db.query('INSERT INTO posts (title, content, isSecret, author) VALUES (?, ?, ?, ?)', [title, content, isSecret, req.user.user_id]);
     res.redirect('/posts');
   } catch (err) {
-    res.status(500).send(err);
+    console.error("게시글 작성 오류:", err);
+    res.status(500).send("게시글 작성 중 오류가 발생했습니다.");
   }
 };
 
@@ -59,7 +66,8 @@ exports.update = async (req, res) => {
     const [result, fields] = await db.query('UPDATE posts SET title = ?, content = ?, isSecret = ? WHERE id = ?', [title, content, isSecret, req.params.id]);
     res.redirect('/posts');
   } catch (err) {
-    res.status(500).send(err);
+    console.error("게시글 수정 오류:", err);
+    res.status(500).send("게시글 수정 중 오류가 발생했습니다.");
   }
 };
 

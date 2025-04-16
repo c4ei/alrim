@@ -1,10 +1,19 @@
-﻿﻿const express = require('express');
+﻿﻿﻿const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
 
 // Register route
-router.post('/register', registerUser);
+router.post('/register', async (req, res) => {
+  try {
+    await registerUser(req, res);
+    res.json({ msg: "회원가입 성공" });
+    res.redirect('/');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
 
 // Get register form
 router.get('/register', (req, res) => {

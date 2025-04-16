@@ -1,4 +1,4 @@
-﻿﻿// /kidsnote_3838/app.js
+﻿﻿﻿﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -12,7 +12,13 @@ dotenv.config();
 const app = express();
 
 // 미들웨어
+const i18next = require('./config/i18n');
+
 app.use(cors());
+app.use((req, res, next) => {
+  i18next.changeLanguage(req.query.lng || 'ko');
+  next();
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
@@ -52,7 +58,7 @@ app.set('view engine', 'ejs');
 
 // 기본 페이지
 app.get('/', (req, res) => {
-  res.render('index', { title: 'KidsNote' });
+  res.render('index', { title: 'KidsNote', i18next: i18next });
 });
 
 // 서버 시작

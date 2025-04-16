@@ -1,4 +1,4 @@
-﻿﻿﻿﻿// /kidsnote_3838/app.js
+﻿﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -44,11 +44,13 @@ const authRoutes = require('./routes/authRoutes');
 const classRoutes = require('./routes/classRoutes');
 const studentRoutes = require('./routes/studentRoutes');  // 학생 관련 라우터
 const albumRoutes = require('./routes/albumRoutes');
+const gradeRoutes = require('./routes/gradeRoutes');
 
 app.use('/', authRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/albums', albumRoutes);
+app.use('/grades', gradeRoutes);
 
 app.get('/teacher', (req, res) => {
   res.render('teacher_dashboard', { title: '선생님 대시보드', i18next: i18next });

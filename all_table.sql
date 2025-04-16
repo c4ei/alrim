@@ -1,20 +1,3 @@
--- --------------------------------------------------------
--- 호스트:                          172.18.0.2
--- 서버 버전:                        8.0.41 - MySQL Community Server - GPL
--- 서버 OS:                        Linux
--- HeidiSQL 버전:                  12.8.0.6908
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
 -- kids 데이터베이스 구조 내보내기
 DROP DATABASE IF EXISTS `kids`;
 CREATE DATABASE IF NOT EXISTS `kids` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
@@ -194,3 +177,16 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `email`, `google
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+
+-- Post 테이블 생성
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '게시글 ID',
+    title VARCHAR(255) NOT NULL COMMENT '게시글 제목',
+    content TEXT NOT NULL COMMENT '게시글 내용',
+    isSecret BOOLEAN DEFAULT FALSE COMMENT '비밀글 여부',
+    likes INT DEFAULT 0 COMMENT '좋아요 수',
+    author INT COMMENT '작성자 (users 테이블의 user_id 참조)',
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '작성일',
+    attachments TEXT COMMENT '첨부 파일 (파일명 저장)',
+    FOREIGN KEY (author) REFERENCES users(user_id)
+);

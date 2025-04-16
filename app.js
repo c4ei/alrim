@@ -1,4 +1,4 @@
-﻿﻿// /kidsnote_3838/app.js
+﻿﻿﻿﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -45,9 +45,17 @@ const classRoutes = require('./routes/classRoutes');
 const studentRoutes = require('./routes/studentRoutes');  // 학생 관련 라우터
 const albumRoutes = require('./routes/albumRoutes');
 const gradeRoutes = require('./routes/gradeRoutes');
+const inOutLogRoutes = require('./routes/inOutLogRoutes');
+const medicationRoutes = require('./routes/medicationRoutes');
+const postRoutes = require('./routes/postRoutes');
+const methodOverride = require('method-override');
 
 app.use('/', authRoutes);
 app.use('/api/classes', classRoutes);
+app.use('/', inOutLogRoutes);
+app.use('/', medicationRoutes);
+app.use(methodOverride('_method'));
+app.use('/', postRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/albums', albumRoutes);
 app.use('/grades', gradeRoutes);

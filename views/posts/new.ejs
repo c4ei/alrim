@@ -1,0 +1,15 @@
+<h1>새 게시글 작성</h1>
+
+<form action="/posts" method="POST">
+  <div>
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title" required>
+  </div>
+  <div>
+    <label for="content">내용:</label>
+    <textarea id="content" name="content" required></textarea>
+  </div>
+  <button type="submit">작성</button>
+</form>
+
+<a href="/posts">목록으로</a>

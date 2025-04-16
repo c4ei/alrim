@@ -1,4 +1,4 @@
-﻿// /kidsnote_3838/app.js
+﻿﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -10,13 +10,16 @@ const path = require('path');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3838;
 
 // 미들웨어
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
+// const expressLayouts = require('express-ejs-layouts');
+// app.use(expressLayouts);
+// app.set('layout', 'layout');
 
 // 세션 & 패스포트 초기화
 app.use(session({
@@ -49,16 +52,10 @@ app.set('view engine', 'ejs');
 
 // 기본 페이지
 app.get('/', (req, res) => {
-  res.render('index', { title: 'KidsNote' }, (err, html) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Server error');
-    }
-    res.render('layout', { title: 'KidsNote', body: html });
-  });
+  res.render('index', { title: 'KidsNote' });
 });
 
 // 서버 시작
-app.listen(PORT, () => {
-  console.log(`✅ 서버 실행: http://localhost:${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`✅ 서버 실행: http://localhost:${process.env.PORT}`);
 });

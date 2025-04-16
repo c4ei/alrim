@@ -1,5 +1,4 @@
-﻿﻿﻿﻿﻿
-const express = require('express');
+﻿﻿const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
@@ -9,7 +8,14 @@ router.post('/register', registerUser);
 
 // Get register form
 router.get('/register', (req, res) => {
-  res.render('register', { title: '회원가입' });
+  const title = '회원가입';
+  res.render('register', { title: title }, (err, html) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Server error');
+    }
+    res.render('register', { title: title, body: html });
+  });
 });
 
 // Login route
@@ -17,7 +23,14 @@ router.post('/login', loginUser);
 
 // Get login form
 router.get('/login', (req, res) => {
-  res.render('login', { title: '로그인' });
+  const title = '로그인';
+  res.render('login', { title: title }, (err, html) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Server error');
+    }
+    res.render('login', { title: title, body: html });
+  });
 });
 
 // Google login

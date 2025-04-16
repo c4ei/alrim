@@ -64,4 +64,11 @@ router.get('/kakao/callback',
     res.redirect('/teacher');
   });
 
+router.get('/logout', (req, res) => {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+});
+
 module.exports = router;

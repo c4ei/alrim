@@ -1,8 +1,11 @@
-﻿﻿﻿
-<%- include('partials/top') %>
+﻿﻿<%- include('partials/top') %>
 <h1><%= i18next.t('KidsNote') %>에 오신 것을 환영합니다!</h1>
 <p>
+  <% if (user) { %>
+    <a href="/logout"><%= i18next.t('로그아웃') %></a>
+  <% } else { %>
     <a href="/login"><%= i18next.t('로그인') %></a> |
     <a href="/register"><%= i18next.t('회원가입') %></a>
+  <% } %>
 </p>
 <%- include('partials/bottom') %>

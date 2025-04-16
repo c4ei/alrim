@@ -34,12 +34,12 @@ const db = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const classRoutes = require('./routes/classRoutes');
 const studentRoutes = require('./routes/studentRoutes');  // 학생 관련 라우터
-// const albumRoutes = require('./routes/albumRoutes');
+const albumRoutes = require('./routes/albumRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/students', studentRoutes);
-// app.use('/api/albums', albumRoutes);
+app.use('/api/albums', albumRoutes);
 
 // 기본 페이지
 app.get('/', (req, res) => {

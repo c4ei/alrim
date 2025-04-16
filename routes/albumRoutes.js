@@ -2,16 +2,22 @@ const express = require('express');
 const router = express.Router();
 const albumController = require('../controllers/albumController');  // 앨범 컨트롤러
 
-// 앨범 목록 조회
-router.get('/albums', albumController.getAlbums);
+// 학생 앨범 사진 업로드
+router.post('/students/:studentId/albums', albumController.upload.single('image'), albumController.uploadStudentAlbum);
 
-// 앨범 생성
-router.post('/albums', albumController.createAlbum);
+// 학급 앨범 사진 업로드
+router.post('/classes/:classId/albums', albumController.upload.single('image'), albumController.uploadClassAlbum);
 
-// 앨범 수정
-router.put('/albums/:albumId', albumController.updateAlbum);
+// 학생 앨범 사진 조회
+router.get('/students/:studentId/albums', albumController.getStudentAlbum);
 
-// 앨범 삭제
-router.delete('/albums/:albumId', albumController.deleteAlbum);
+// 학급 앨범 사진 조회
+router.get('/classes/:classId/albums', albumController.getClassAlbum);
+
+// 학생 앨범 사진 삭제
+router.delete('/students/albums/:photoId', albumController.deleteStudentAlbumPhoto);
+
+// 학급 앨범 사진 삭제
+router.delete('/classes/albums/:photoId', albumController.deleteClassAlbumPhoto);
 
 module.exports = router;

@@ -59,12 +59,16 @@
             <a href="/" >홈</a>
 
             <div class="dropdown">
-                <button class="dropbtn">대시보드</button>
+                <button class="dropbtn"><a href="/teacher_dashboard"><%= i18next.t('선생님 대시보드') %></a></button>
                 <div class="dropdown-content">
-                    <a href="/teacher_dashboard"><%= i18next.t('선생님 대시보드') %></a>
+                    <a href="/drop_off_pick_up"><%= i18next.t('등하원 관리') %></a>
+                    <a href="/grades"><%= i18next.t('학습성취도관리') %></a>
+                    <a href="/medication_time"><%= i18next.t('약 먹이는 시간 확인') %></a>
+                    <a href="#"> <%= i18next.t('아이 출석 관리') %></a>
+                    <a href="/api/albums"><%= i18next.t('앨범 관리') %></a>
+                    <a href="/posts"><%= i18next.t('학부모와의 소통') %></a>
                 </div>
             </div>
-
             
             <div class="dropdown">
               <button class="dropbtn">내정보</button>

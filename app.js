@@ -18,6 +18,7 @@ const i18next = require('./config/i18n');
 app.use(cors());
 app.use((req, res, next) => {
   i18next.changeLanguage(req.query.lng || 'ko');
+  res.locals.i18next = i18next;
   next();
 });
 app.use(bodyParser.json());

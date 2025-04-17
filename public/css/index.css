@@ -29,7 +29,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: url('/images/fun_bg.jpg') no-repeat center center;
+    background: url('/images/kids_bg.jpg') no-repeat center center;
     background-size: cover;
     opacity: 0.2; /* 40% 투명도 */
     animation: moveBackground 300s linear infinite;

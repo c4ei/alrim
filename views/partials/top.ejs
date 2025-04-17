@@ -1,9 +1,112 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%- typeof title !== 'undefined' ? title : 'kids.aah.name' %></title>
-  <link rel="stylesheet" href="/public/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= (typeof title !== 'undefined' && title !== null) ? title : "kids.aah.name" %></title>
+    <link rel="stylesheet" href="/css/index.css">
+    <meta http-equiv="Expires" content="Mon, 06 Jan 2024 00:00:01 GMT">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
+
+<script>
+    function fn_loading_show_on() {
+        const overlay = document.getElementById('loadingOverlay');
+        overlay.style.display = 'flex';
+    }
+    function fn_loading_show_off() {
+        const overlay = document.getElementById('loadingOverlay');
+        overlay.style.display = 'none';
+    }
+    function showToast(message, redirect) {
+        const toastOverlay = document.getElementById('toast-overlay');
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toastOverlay.className = 'toast-overlay show';
+        toast.className = 'toast show';
+        setTimeout(() => {
+            hideToast();
+            // if (redirect) { window.location.href = redirect; }
+        }, 3000);
+    }
+    function hideToast() {
+        const toastOverlay = document.getElementById('toast-overlay');
+        const toast = document.getElementById('toast');
+        toastOverlay.className = toastOverlay.className.replace('show', '');
+        toast.className = toast.className.replace('show', '');
+    }
+
+</script>
+<div class="background-animation"></div>
+<div class="main_container">
+
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="toast-overlay" class="toast-overlay" onclick="hideToast()"></div>
+    <div id="toast" class="toast"></div>
+
+    <div class="top-menu">
+        <div class="nav-links">
+            <a href="/" >홈</a>
+
+            <div class="dropdown">
+                <button class="dropbtn">대시보드</button>
+                <div class="dropdown-content">
+                    <a href="/teacher_dashboard"><%= i18next.t('선생님 대시보드') %></a>
+                </div>
+            </div>
+
+            
+            <div class="dropdown">
+              <button class="dropbtn">내정보</button>
+              <div class="dropdown-content">
+                  <a href="/private">개인키보기</a>
+                  <% if (typeof usersTbl !== 'undefined' && usersTbl && usersTbl.two_factor_enabled === 'N') { %>
+                      <a href="/users/2fa-setup">2FA 설정</a>
+                  <% } else { %>
+                      <a href="/users/2fa-disable">2FA 해제</a>
+                  <% } %>
+                  <a href="#" onclick="toggleUserInfo(event)">내 정보 보기</a>
+                  <a href="/users/logout">로그아웃</a>
+              </div>
+            </div>
+            <a href="#"  target="_blank">사용법</a>
+        </div>
+    </div>
+
+
+    <div class="user-info">
+        <p>
+
+        </p>
+    </div>
+
+    <div class="sub_container">
+로그인이 필요합니다. <a href="/users/logout">로그아웃</a>
+<script>
+    function toggleUserInfo(event) {
+        event.preventDefault();
+        const userInfo = document.querySelector('.user-info');
+        userInfo.classList.toggle('show');
+    }
+
+    // 외부 클릭시 사용자 정보 숨기기
+    document.addEventListener('click', function(event) {
+        const userInfo = document.querySelector('.user-info');
+        const userInfoButton = document.querySelector('.dropdown-content a[onclick="toggleUserInfo(event)"]');
+
+        if (!userInfo.contains(event.target) && !userInfoButton.contains(event.target)) {
+            userInfo.classList.remove('show');
+        }
+    });
+</script>
+

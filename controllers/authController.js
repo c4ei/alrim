@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
     res.status(201).json({ msg: '회원가입 성공' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: '서버 오류' });
+    res.status(500).json({ msg: '서버 오류', error: error.message });
   }
 };
 
@@ -42,16 +42,28 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ msg: '이메일 또는 비밀번호가 잘못되었습니다.' });
     }
 
-    const token = jwt.sign({ user: { user_id: user[0].user_id, username: user[0].username, role: user[0].role } }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const userRole = user[0].role;
 
-    if (user[0].role === 'teacher') {
+    if (!userRole) {
+      return res.status(400).json({ msg: '사용자 역할이 설정되지 않았습니다.' });
+    }
+
+    const token = jwt.sign({ user: { user_id: user[0].user_id, username: user[0].username, role: userRole } }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    if (userRole === 'teacher') {
       res.redirect('/teacher');
-    } else {
+    } else if (userRole === 'admin') {
+      res.redirect('/admin');
+    }
+    else if (userRole === 'parent') {
+      res.redirect('/parent');
+    }
+     else {
       res.redirect('/student_album');
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: '서버 오류' });
+    res.status(500).json({ msg: '서버 오류', error: error.message });
   }
 };
 

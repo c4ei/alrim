@@ -1,4 +1,4 @@
-﻿﻿onst i18next = require('../config/i18n');
+﻿﻿const i18next = require('../config/i18n');
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
@@ -35,13 +35,7 @@ router.post('/login', async (req, res) => {
 // 로그인 폼 가져오기
 router.get('/login', (req, res) => {
   const title = '로그인';
-  res.render('login', { title: title, i18next: i18next }, (err, html) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Server error');
-    }
-    res.render('login', { title: title, body: html, i18next: i18next });
-  });
+  res.render('login', { title: title, i18next: i18next });
 });
 
 // 구글 로그인

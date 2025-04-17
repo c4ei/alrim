@@ -47,7 +47,7 @@ const getStudentById = async (req, res) => {
   const { studentId } = req.params;
 
   try {
-    const [student] = await pool.execute('SELECT * FROM students WHERE id = ?', [studentId]);
+    const [student] = await pool.execute('SELECT * FROM students WHERE student_id = ?', [studentId]);
 
     if (student.length === 0) {
       return res.status(404).json({ msg: '학생을 찾을 수 없습니다.' });

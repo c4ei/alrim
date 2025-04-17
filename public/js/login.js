@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .then(response => response.json())
       .then(data => {
-        if (data.token) {
+        if (data.redirect) {
           localStorage.setItem('jwtToken', data.token);
           alert('로그인 성공!');
-          window.location.href = '/teacher_dashboard'; // 로그인 후 리다이렉트
+          window.location.href = data.redirect; // 로그인 후 리다이렉트
         } else {
           alert('로그인 실패: ' + data.msg);
         }

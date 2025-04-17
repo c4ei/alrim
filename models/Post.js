@@ -1,8 +1,8 @@
 // models/Post.js
 module.exports = (db) => {
   return {
-    getPosts: () => {
-      return db.query('SELECT * FROM posts');
+    getPosts: (userId) => {
+      return db.query('SELECT * FROM posts WHERE author = ?', [userId]);
     },
     getPost: (id) => {
       return db.query('SELECT * FROM posts WHERE id = ?', [id]);

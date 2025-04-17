@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
     res.status(201).json({ msg: '회원가입 성공' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: '서버 오류', error: error.message });
+    res.status(500).json({ msg: '서버 오류', error: error.toString() });
   }
 };
 
@@ -32,12 +32,14 @@ const loginUser = async (req, res) => {
 
   try {
     const [user] = await pool.execute('SELECT * FROM users WHERE email = ?', [email]);
+    console.log("user:", user);
 
     if (user.length === 0) {
       return res.status(400).json({ msg: '이메일 또는 비밀번호가 잘못되었습니다.' });
     }
 
     const validPassword = await bcrypt.compare(password, user[0].password);
+    console.log("validPassword:", validPassword);
 
     if (!validPassword) {
       return res.status(400).json({ msg: '이메일 또는 비밀번호가 잘못되었습니다.' });
@@ -53,22 +55,22 @@ const loginUser = async (req, res) => {
 
     res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1시간
 
-    res.json({ msg: '로그인 성공' });
-
-    // if (userRole === 'teacher') {
-    //   res.redirect('/teacher');
-    // } else if (userRole === 'admin') {
-    //   res.redirect('/admin');
-    // }
-    // else if (userRole === 'parent') {
-    //   res.redirect('/parent');
-    // }
-    //  else {
-    //   res.redirect('/student_album');
-    // }
+    // res.json({ msg: '로그인 성공' });
+    console.log("userRole:", userRole);
+    if (userRole === 'teacher') {
+      res.json({ msg: '로그인 성공', redirect: '/teacher_dashboard' });
+    } else if (userRole === 'admin') {
+      res.json({ msg: '로그인 성공', redirect: '/admin' });
+    }
+    else if (userRole === 'parent') {
+      res.json({ msg: '로그인 성공', redirect: '/index' });
+    }
+     else {
+      res.json({ msg: '로그인 성공', redirect: '/student_album' });
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: '서버 오류', error: error.message });
+    res.status(500).json({ msg: '서버 오류', error: error.toString() });
   }
 };
 

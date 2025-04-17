@@ -20,12 +20,12 @@
         <tbody>
             <% if (locals.students && students.length > 0) { %>
                 <% students.forEach(student => { %>
-                    <tr data-student-id="<%= student.student_id %>">
+<tr>
                         <td><%= student.name %></td>
                         <td><input type="datetime-local" name="checkInTime"></td>
                         <td><input type="datetime-local" name="checkOutTime"></td>
                         <td><input type="text" name="memo"></td>
-                        <td><a href="/students/<%= student.student_id %>/achievements">학습 성취도 관리</a></td>
+<td>학습 성취도 관리</td>
                     </tr>
                 <% }); %>
             <% } else { %>

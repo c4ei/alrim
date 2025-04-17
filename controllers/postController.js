@@ -4,7 +4,7 @@ const Post = require('../models/Post')(db);
 // 게시글 목록 조회
 exports.index = async (req, res) => {
   try {
-    const [posts, fields] = await Post.getPosts();
+    const [posts, fields] = await Post.getPosts(req.user.user_id);
     res.render('posts/index', { posts });
   } catch (err) {
     res.status(500).send(err);

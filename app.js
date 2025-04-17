@@ -1,4 +1,4 @@
-﻿﻿﻿﻿// /kidsnote_3838/app.js
+﻿﻿﻿﻿﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -81,7 +81,7 @@ app.get('/teacher_dashboard', async (req, res) => {
     res.render('teacher_dashboard', { title: '선생님 대시보드', i18next: i18next, students: students});
   } catch (error) {
     console.error('Error fetching students:', error);
-    res.status(500).json({ message: 'Failed to fetch students' });
+    res.status(500).json({ message: 'Failed to fetch students', error: error.toString() });
   }
 });
 

@@ -1,4 +1,4 @@
-﻿﻿const i18next = require('../config/i18n');
+﻿﻿onst i18next = require('../config/i18n');
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();

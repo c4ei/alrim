@@ -1,4 +1,4 @@
-﻿﻿// controllers/studentController.js
+﻿﻿/ controllers/studentController.js
 const pool = require('../config/db');
 
 // 학생 등록

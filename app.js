@@ -49,6 +49,7 @@ const authRoutes = require('./routes/authRoutes');
 const inOutLogRoutes = require('./routes/inOutLogRoutes');
 const classRoutes = require('./routes/classRoutes');
 const studentRoutes = require('./routes/studentRoutes');  // 학생 관련 라우터
+const learningAchievementRoutes = require('./routes/learningAchievementRoutes');
 const albumRoutes = require('./routes/albumRoutes');
 const gradeRoutes = require('./routes/gradeRoutes');
 const medicationRoutes = require('./routes/medicationRoutes');
@@ -66,6 +67,7 @@ app.use('/', postRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/albums', albumRoutes);
 app.use('/grades', gradeRoutes);
+app.use('/', learningAchievementRoutes);
 
 app.get('/teacher', (req, res) => {
   res.render('teacher_dashboard', { title: '선생님 대시보드', i18next: i18next});

@@ -9,6 +9,18 @@ exports.createInOutLog = async (req, res) => {
   try {
     const { student_id, check_in_time, check_out_time, memo } = req.body;
 
+    if (!Number.isInteger(Number(student_id))) {
+      return res.status(400).json({ message: 'Invalid student_id' });
+    }
+
+    if (isNaN(new Date(check_in_time).getTime())) {
+      return res.status(400).json({ message: 'Invalid check_in_time' });
+    }
+
+    if (isNaN(new Date(check_out_time).getTime())) {
+      return res.status(400).json({ message: 'Invalid check_out_time' });
+    }
+
     const sql = 'INSERT INTO in_out_log (student_id, check_in_time, check_out_time, memo) VALUES (?, ?, ?, ?)';
     const values = [student_id, check_in_time, check_out_time, memo];
 
@@ -23,7 +35,7 @@ exports.createInOutLog = async (req, res) => {
       // 카카오톡 메시지 보내기
       try {
         const kakaoAdminKey = process.env.KAKAO_ADMIN_KEY;
-        const kakaoMessage = `[등하원 알림] 학생 ID: ${student_id}, 등원 시간: ${check_in_time}, 하원 시간: ${check_out_time}, 메모: ${memo}`;
+        const kakaoMessage = `[등하원 알림] 학생 ID: ${student_id}, 등원 시간: ${check_in_time}, 하원 시간: ${check_out_time}, 메모: ${memo || '내용 없음'}`;
 
         const kakaoApiUrl = 'https://kapi.kakao.com/v2/api/talk/memo/default/send';
         const headers = {
@@ -55,6 +67,10 @@ exports.createInOutLog = async (req, res) => {
 exports.getInOutLogsByStudent = async (req, res) => {
   try {
     const { student_id } = req.params;
+
+    if (!Number.isInteger(Number(student_id))) {
+      return res.status(400).json({ message: 'Invalid student_id' });
+    }
 
     const sql = 'SELECT * FROM in_out_log WHERE student_id = ?';
     const values = [student_id];

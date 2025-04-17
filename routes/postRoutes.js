@@ -24,4 +24,10 @@ router.put('/posts/:id', postController.update);
 // 게시글 삭제
 router.delete('/posts/:id', postController.delete);
 
+// 좋아요
+router.get('/posts/:id/like', postController.like);
+
+// 리포스트
+router.get('/posts/:id/repost', postController.repost);
+
 module.exports = router;

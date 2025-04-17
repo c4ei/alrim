@@ -10,6 +10,8 @@
   <button type="submit">삭제</button>
 </form>
 
+<a href="/posts/<%= post.id %>/like">좋아요</a>
+<a href="/posts/<%= post.id %>/repost">리포스트</a>
 <a href="/posts">목록으로</a>
 
 <%- include('../partials/bottom') %>

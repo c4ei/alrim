@@ -3,7 +3,38 @@
 <p><%= i18next.t('선생님이 관리할 수 있는 대시보드입니다. 학생 앨범과 학급 앨범을 관리하고, 학습 진도를 추적할 수 있습니다.') %></p>
 
 <ul>
-    <li><a href="/drop_off_pick_up"><%= i18next.t('등하원 관리') %></a></li>
+<li><a href="/drop_off_pick_up"><%= i18next.t('등하원 관리') %></a>
+    <h2><%= i18next.t('등하원 관리') %></h2>
+    <!-- 등하원 관리 기능 구현 -->
+    <p><%= i18next.t('학생들의 등하원을 관리하고 기록합니다.') %></p>
+
+    <table id="inOutLogTable">
+        <thead>
+            <tr>
+                <th><%= i18next.t('학생 이름') %></th>
+                <th><%= i18next.t('등원 시간') %></th>
+                <th><%= i18next.t('하원 시간') %></th>
+                <th><%= i18next.t('메모') %></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (locals.students && students.length > 0) { %>
+                <% students.forEach(student => { %>
+                    <tr data-student-id="<%= student.student_id %>">
+                        <td><%= student.name %></td>
+                        <td><input type="datetime-local" name="checkInTime"></td>
+                        <td><input type="datetime-local" name="checkOutTime"></td>
+                        <td><input type="text" name="memo"></td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4"><%= i18next.t('등록된 학생이 없습니다.') %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</li>
     <li><a href="/grades"><%= i18next.t('학습성취도관리') %></a></li>
     <li><a href="/medication_time"><%= i18next.t('약 먹이는 시간 확인') %></a></li>
     <li><a href="#"> <%= i18next.t('아이 출석 관리') %></a></li>

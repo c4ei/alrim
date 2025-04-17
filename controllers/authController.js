@@ -6,7 +6,7 @@ const passport = require('passport');
 
 // 회원 가입
 const registerUser = async (req, res) => {
-  const { username, password, email, role, organization } = req.body;
+  const { username, password, email, role, organization, organization_id } = req.body;
 
   try {
     const [userExists] = await pool.execute('SELECT * FROM users WHERE email = ?', [email]);
@@ -17,7 +17,8 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await pool.execute('INSERT INTO users (username, email, password, role, organization) VALUES (?, ?, ?, ?, ?)', [username, email, hashedPassword, role, organization]);
+    await pool.execute('INSERT INTO users (username, email, password, role, organization, shop_code) VALUES (?, ?, ?, ?, ?, ?)', [username, email, hashedPassword, role, organization, organization_id]);
+
     res.status(201).json({ msg: '회원가입 성공' });
   } catch (error) {
     console.error(error);
@@ -50,17 +51,21 @@ const loginUser = async (req, res) => {
 
     const token = jwt.sign({ user: { user_id: user[0].user_id, username: user[0].username, role: userRole } }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    if (userRole === 'teacher') {
-      res.redirect('/teacher');
-    } else if (userRole === 'admin') {
-      res.redirect('/admin');
-    }
-    else if (userRole === 'parent') {
-      res.redirect('/parent');
-    }
-     else {
-      res.redirect('/student_album');
-    }
+    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1시간
+
+    res.json({ msg: '로그인 성공' });
+
+    // if (userRole === 'teacher') {
+    //   res.redirect('/teacher');
+    // } else if (userRole === 'admin') {
+    //   res.redirect('/admin');
+    // }
+    // else if (userRole === 'parent') {
+    //   res.redirect('/parent');
+    // }
+    //  else {
+    //   res.redirect('/student_album');
+    // }
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: '서버 오류', error: error.message });

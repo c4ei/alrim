@@ -1,4 +1,4 @@
-﻿// controllers/studentController.js
+﻿﻿// controllers/studentController.js
 const pool = require('../config/db');
 
 // 학생 등록
@@ -101,4 +101,33 @@ const deleteStudent = async (req, res) => {
   }
 };
 
-module.exports = { registerStudent, getStudentsByClass, getStudentById, updateStudent, deleteStudent };
+// 학생 목록 조회 (전체)
+const getAllStudents = async (req, res) => {
+  try {
+    const [students] = await pool.execute('SELECT * FROM students');
+    res.status(200).json(students);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: '서버 오류' });
+  }
+};
+
+// 이메일로 학생 정보 조회
+const getStudentByEmail = async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const [student] = await pool.execute('SELECT s.* FROM students s JOIN users u ON s.user_id = u.user_id WHERE u.email = ?', [email]);
+
+    if (student.length === 0) {
+      return res.status(404).json({ msg: '학생을 찾을 수 없습니다.' });
+    }
+
+    res.status(200).json(student[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: '서버 오류' });
+  }
+};
+
+module.exports = { registerStudent, getStudentsByClass, getStudentById, updateStudent, deleteStudent, getAllStudents, getStudentByEmail };

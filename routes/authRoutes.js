@@ -7,9 +7,9 @@ const { registerUser, loginUser } = require('../controllers/authController');
 // 회원가입 라우트
 router.post('/register', async (req, res) => {
   try {
+    const { username, password, email, role, organization } = req.body;
     await registerUser(req, res);
-    res.json({ msg: "회원가입 성공" });
-    res.redirect('/');
+    return res.json({ msg: "회원가입 성공" });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
@@ -19,17 +19,18 @@ router.post('/register', async (req, res) => {
 // 회원가입 폼 가져오기
 router.get('/register', (req, res) => {
   const title = '회원가입';
-  res.render('register', { title: title, i18next: i18next }, (err, html) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Server error');
-    }
-    res.render('register', { title: title, body: html, i18next: i18next });
-  });
+  res.render('register', { title: title, i18next: i18next, csrfToken: req.csrfToken() });
 });
 
 // 로그인 라우트
-router.post('/login', loginUser);
+router.post('/login', async (req, res) => {
+  try {
+    await loginUser(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: '서버 오류', error: error.message });
+  }
+});
 
 // 로그인 폼 가져오기
 router.get('/login', (req, res) => {

@@ -2,6 +2,8 @@
 const pool = require('../config/db');
 
 // 학급 생성
+const { isLogin } = require('../util/co_util');
+
 const createClass = async (req, res) => {
   const { className, teacherId } = req.body;
 
@@ -10,6 +12,12 @@ const createClass = async (req, res) => {
 
     if (existingClass.length > 0) {
       return res.status(400).json({ msg: '이미 존재하는 학급입니다.' });
+    }
+
+    const [existingTeacher] = await pool.execute('SELECT * FROM users WHERE user_id = ? AND role = "teacher"', [teacherId]);
+
+    if (existingTeacher.length === 0) {
+      return res.status(400).json({ msg: '존재하지 않는 선생님입니다.' });
     }
 
     await pool.execute('INSERT INTO classes (class_name, teacher_id) VALUES (?, ?)', [className, teacherId]);

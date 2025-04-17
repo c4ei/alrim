@@ -19,4 +19,7 @@ router.put('/students/:studentId', studentController.updateStudent);
 // 학생 삭제
 router.delete('/students/:studentId', studentController.deleteStudent);
 
+// 이메일로 학생 정보 조회
+router.get('/students/email/:email', studentController.getStudentByEmail);
+
 module.exports = router;

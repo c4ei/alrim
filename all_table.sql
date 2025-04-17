@@ -137,6 +137,21 @@ CREATE TABLE IF NOT EXISTS `medicationHistory` (
 
 -- 테이블 데이터 kids.medicationHistory:~0 rows (대략적) 내보내기
 
+-- 테이블 kids.organizations 구조 내보내기
+DROP TABLE IF EXISTS `organizations`;
+CREATE TABLE IF NOT EXISTS `organizations` (
+  `organization_id` int NOT NULL AUTO_INCREMENT COMMENT '기관 ID',
+  `organization_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '기관 이름',
+  `business_license_number` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '사업자등록증번호',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일',
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
+  PRIMARY KEY (`organization_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 테이블 데이터 kids.organizations:~1 rows (대략적) 내보내기
+INSERT INTO `organizations` (`organization_id`, `organization_name`, `business_license_number`, `created_at`, `updated_at`) VALUES
+	(1, '씨티유치원', '1234567890', '2025-04-17 01:54:31', '2025-04-17 01:54:31');
+
 -- 테이블 kids.posts 구조 내보내기
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
@@ -188,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `students` (
   KEY `class_id` (`class_id`),
   CONSTRAINT `students_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `students_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 테이블 데이터 kids.students:~0 rows (대략적) 내보내기
 
@@ -209,13 +224,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `login_cnt` int DEFAULT NULL,
   `reg_ip` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_ip` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `shop_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '기관 코드',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 테이블 데이터 kids.users:~0 rows (대략적) 내보내기
-INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `email`, `googleId`, `kakaoId`, `created_at`, `updated_at`, `organization`, `point`, `login_cnt`, `reg_ip`, `last_ip`) VALUES
-	(1, 'test', '$2b$10$XuAwdAKMowmyqB8a/zLmr.2QHhMSWaOZpFoZgTsONwIRP12RjUejC', 'teacher', 'c4ex.net@gmail.com', NULL, NULL, '2025-04-16 07:29:41', '2025-04-16 07:29:41', 'A', 100, NULL, NULL, NULL);
+-- 테이블 데이터 kids.users:~3 rows (대략적) 내보내기
+INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `email`, `googleId`, `kakaoId`, `created_at`, `updated_at`, `organization`, `point`, `login_cnt`, `reg_ip`, `last_ip`, `shop_code`) VALUES
+	(1, 'test', '$2b$10$XuAwdAKMowmyqB8a/zLmr.2QHhMSWaOZpFoZgTsONwIRP12RjUejC', 'teacher', 'c4ex.net@gmail.com', NULL, NULL, '2025-04-16 07:29:41', '2025-04-16 07:29:41', 'A', 100, NULL, NULL, NULL, NULL),
+	(2, '학생1', '$2b$10$92flgQetZzzlnJHmAP2CVuTxFWkWqZ.PH8hSCurqV1Nu9J/B7QGC.', 'parent', 'c4ei.net@gmail.com', NULL, NULL, '2025-04-17 01:33:22', '2025-04-17 01:33:22', '씨티유치원', 100, NULL, NULL, NULL, NULL),
+	(3, '부모1', '$2b$10$Z5sNqP8XtUPWaNTduLem2u0lDUmlddUwxGS53XzQ6Bz8U.N41DrD6', 'parent', 'parent1@example.com', NULL, NULL, '2025-04-17 01:58:31', '2025-04-17 01:58:31', '씨티유치원', 100, NULL, NULL, NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

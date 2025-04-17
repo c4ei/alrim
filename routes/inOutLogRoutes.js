@@ -1,8 +1,13 @@
+// routes/inOutLogRoutes.js
 const express = require('express');
 const router = express.Router();
 const inOutLogController = require('../controllers/inOutLogController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
-// 등하원 관리 라우트
-router.get('/drop_off_pick_up', inOutLogController.getInOutLogs);
+// Create a new in/out log
+router.post('/', inOutLogController.createInOutLog);
+
+// Get all in/out logs for a specific student
+router.get('/:student_id', inOutLogController.getInOutLogsByStudent);
 
 module.exports = router;

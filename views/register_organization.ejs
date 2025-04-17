@@ -1,0 +1,16 @@
+<%- include('partials/top') %>
+
+<h1>기관 등록</h1>
+<form action="/register_organization" method="post">
+    <div>
+        <label for="organization_name">기관 이름:</label>
+        <input type="text" id="organization_name" name="organization_name" required>
+    </div>
+    <div>
+        <label for="business_license_number">사업자등록증번호:</label>
+        <input type="text" id="business_license_number" name="business_license_number" required>
+    </div>
+    <button type="submit">기관 등록</button>
+</form>
+
+<%- include('partials/bottom') %>

@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿// /kidsnote_3838/app.js
+﻿﻿﻿﻿// /kidsnote_3838/app.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -76,11 +76,15 @@ app.get('/teacher', (req, res) => {
 const studentController = require('./controllers/studentController');
 
 app.get('/teacher_dashboard', async (req, res) => {
+  console.log('app.js:68 - /teacher_dashboard 호출됨');
   try {
     const students = await studentController.getAllStudents(req, res);
+    console.log('app.js:71 - studentController.getAllStudents() 호출됨');
     res.render('teacher_dashboard', { title: '선생님 대시보드', i18next: i18next, students: students});
+    console.log('app.js:73 - teacher_dashboard 렌더링됨');
   } catch (error) {
-    console.error('Error fetching students:', error);
+    console.error('### app.js 75 ### Error fetching students:', error);
+    console.error('### app.js 76 ### Error stack:', error.stack);
     res.status(500).json({ message: 'Failed to fetch students', error: error.toString() });
   }
 });

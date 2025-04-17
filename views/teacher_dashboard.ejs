@@ -21,11 +21,11 @@
             <% if (locals.students && students.length > 0) { %>
                 <% students.forEach(student => { %>
 <tr>
-                        <td><%= student.name %></td>
+                        <td><%= student.first_name %></td>
                         <td><input type="datetime-local" name="checkInTime"></td>
                         <td><input type="datetime-local" name="checkOutTime"></td>
                         <td><input type="text" name="memo"></td>
-<td>학습 성취도 관리</td>
+<td><a href="/grades/student/<%= student.student_id %>"><%= i18next.t('학습 성취도 관리') %></a></td>
                     </tr>
                 <% }); %>
             <% } else { %>

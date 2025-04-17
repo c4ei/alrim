@@ -10,6 +10,20 @@ exports.getAllGrades = async (req, res) => {
   }
 };
 
+exports.getGradeByStudentId = async (req, res) => {
+  try {
+    const { student_id } = req.params;
+    const [rows] = await pool.query('SELECT * FROM grades WHERE student_id = ?', [student_id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: '성적을 찾을 수 없습니다' });
+    }
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: '서버 오류' });
+  }
+};
+
 exports.createGrade = async (req, res) => {
   try {
     const { student_id, title, score, exam_date } = req.body;

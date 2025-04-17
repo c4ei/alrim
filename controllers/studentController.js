@@ -1,4 +1,4 @@
-﻿﻿// controllers/studentController.js
+﻿﻿﻿// controllers/studentController.js
 const pool = require('../config/db');
 
 // 학생 등록
@@ -66,13 +66,13 @@ const updateStudent = async (req, res) => {
   const { name, classId, birthDate, allergyInfo, medicationInfo } = req.body;
 
   try {
-    const [existingStudent] = await pool.execute('SELECT * FROM students WHERE id = ?', [studentId]);
+    const [existingStudent] = await pool.execute('SELECT * FROM students WHERE student_id = ?', [studentId]);
 
     if (existingStudent.length === 0) {
       return res.status(404).json({ msg: '학생을 찾을 수 없습니다.' });
     }
 
-    await pool.execute('UPDATE students SET name = ?, class_id = ?, birth_date = ?, allergy_info = ?, medication_info = ? WHERE id = ?',
+    await pool.execute('UPDATE students SET name = ?, class_id = ?, birth_date = ?, allergy_info = ?, medication_info = ? WHERE student_id = ?',
       [name, classId, birthDate, allergyInfo, medicationInfo, studentId]);
 
     res.status(200).json({ msg: '학생 정보 수정 성공' });
@@ -87,13 +87,13 @@ const deleteStudent = async (req, res) => {
   const { studentId } = req.params;
 
   try {
-    const [existingStudent] = await pool.execute('SELECT * FROM students WHERE id = ?', [studentId]);
+    const [existingStudent] = await pool.execute('SELECT * FROM students WHERE student_id = ?', [studentId]);
 
     if (existingStudent.length === 0) {
       return res.status(404).json({ msg: '학생을 찾을 수 없습니다.' });
     }
 
-    await pool.execute('DELETE FROM students WHERE id = ?', [studentId]);
+    await pool.execute('DELETE FROM students WHERE student_id = ?', [studentId]);
     res.status(200).json({ msg: '학생 삭제 성공' });
   } catch (error) {
     console.error(error);
@@ -103,11 +103,13 @@ const deleteStudent = async (req, res) => {
 
 // 학생 목록 조회 (전체)
 const getAllStudents = async (req, res) => {
+  console.log('controllers/studentController.js:79 - getAllStudents() 호출됨');
   try {
     const [students] = await pool.execute('SELECT * FROM students');
+    console.log('controllers/studentController.js:82 - 학생 목록 조회 성공');
     res.status(200).json(students);
   } catch (error) {
-    console.error(error);
+    console.error('controllers/studentController.js:85 - 학생 목록 조회 실패:', error);
     res.status(500).json({ msg: '서버 오류' });
   }
 };

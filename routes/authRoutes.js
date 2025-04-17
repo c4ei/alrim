@@ -1,4 +1,5 @@
-﻿﻿const express = require('express');
+﻿﻿const i18next = require('../config/i18n');
+const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
@@ -18,12 +19,12 @@ router.post('/register', async (req, res) => {
 // 회원가입 폼 가져오기
 router.get('/register', (req, res) => {
   const title = '회원가입';
-  res.render('register', { title: title }, (err, html) => {
+  res.render('register', { title: title, i18next: i18next }, (err, html) => {
     if (err) {
       console.error(err);
       return res.status(500).send('Server error');
     }
-    res.render('register', { title: title, body: html });
+    res.render('register', { title: title, body: html, i18next: i18next });
   });
 });
 
@@ -33,12 +34,12 @@ router.post('/login', loginUser);
 // 로그인 폼 가져오기
 router.get('/login', (req, res) => {
   const title = '로그인';
-  res.render('login', { title: title }, (err, html) => {
+  res.render('login', { title: title, i18next: i18next }, (err, html) => {
     if (err) {
       console.error(err);
       return res.status(500).send('Server error');
     }
-    res.render('login', { title: title, body: html });
+    res.render('login', { title: title, body: html, i18next: i18next });
   });
 });
 

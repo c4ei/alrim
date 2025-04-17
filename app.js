@@ -78,6 +78,10 @@ app.get('/', (req, res) => {
   res.render('index', { title: 'KidsNote', i18next: i18next, user: req.user });
 });
 
+app.get('/private', (req, res) => {
+  res.render('private', { title: '개인키 보기', i18next: i18next, user: req.user });
+});
+
 // 서버 시작
 app.listen(process.env.PORT, () => {
   console.log(`✅ 서버 실행: http://localhost:${process.env.PORT}`);

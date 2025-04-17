@@ -1,17 +1,24 @@
+-- --------------------------------------------------------
+-- 호스트:                          172.18.0.2
+-- 서버 버전:                        8.0.41 - MySQL Community Server - GPL
+-- 서버 OS:                        Linux
+-- HeidiSQL 버전:                  12.8.0.6908
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
 -- kids 데이터베이스 구조 내보내기
 DROP DATABASE IF EXISTS `kids`;
 CREATE DATABASE IF NOT EXISTS `kids` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `kids`;
-
-CREATE TABLE grades (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    score INT NOT NULL,
-    exam_date DATE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
 
 -- 테이블 kids.albums 구조 내보내기
 DROP TABLE IF EXISTS `albums`;
@@ -63,6 +70,21 @@ CREATE TABLE IF NOT EXISTS `classes` (
 
 -- 테이블 데이터 kids.classes:~0 rows (대략적) 내보내기
 
+-- 테이블 kids.grades 구조 내보내기
+DROP TABLE IF EXISTS `grades`;
+CREATE TABLE IF NOT EXISTS `grades` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `student_id` int NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `score` int NOT NULL,
+  `exam_date` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 테이블 데이터 kids.grades:~0 rows (대략적) 내보내기
+
 -- 테이블 kids.in_out_log 구조 내보내기
 DROP TABLE IF EXISTS `in_out_log`;
 CREATE TABLE IF NOT EXISTS `in_out_log` (
@@ -72,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `in_out_log` (
   `check_out_time` datetime DEFAULT NULL COMMENT '하원 시간',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '기록일',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
+  `memo` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`attendance_id`),
   KEY `student_id` (`student_id`),
   CONSTRAINT `in_out_log_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE
@@ -113,6 +136,24 @@ CREATE TABLE IF NOT EXISTS `medicationHistory` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 테이블 데이터 kids.medicationHistory:~0 rows (대략적) 내보내기
+
+-- 테이블 kids.posts 구조 내보내기
+DROP TABLE IF EXISTS `posts`;
+CREATE TABLE IF NOT EXISTS `posts` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '게시글 ID',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '게시글 제목',
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '게시글 내용',
+  `isSecret` tinyint(1) DEFAULT '0' COMMENT '비밀글 여부',
+  `likes` int DEFAULT '0' COMMENT '좋아요 수',
+  `author` int DEFAULT NULL COMMENT '작성자 (users 테이블의 user_id 참조)',
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성일',
+  `attachments` text COLLATE utf8mb4_unicode_ci COMMENT '첨부 파일 (파일명 저장)',
+  PRIMARY KEY (`id`),
+  KEY `author` (`author`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`author`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 테이블 데이터 kids.posts:~0 rows (대략적) 내보내기
 
 -- 테이블 kids.pushNotifications 구조 내보내기
 DROP TABLE IF EXISTS `pushNotifications`;
@@ -164,29 +205,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '계정 생성일',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '계정 수정일',
   `organization` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `point` bigint NOT NULL DEFAULT '100',
+  `login_cnt` int DEFAULT NULL,
+  `reg_ip` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_ip` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 테이블 데이터 kids.users:~0 rows (대략적) 내보내기
-INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `email`, `googleId`, `kakaoId`, `created_at`, `updated_at`, `organization`) VALUES
-	(1, 'test', '$2b$10$XuAwdAKMowmyqB8a/zLmr.2QHhMSWaOZpFoZgTsONwIRP12RjUejC', 'teacher', 'c4ex.net@gmail.com', NULL, NULL, '2025-04-16 07:29:41', '2025-04-16 07:29:41', 'A');
+INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `email`, `googleId`, `kakaoId`, `created_at`, `updated_at`, `organization`, `point`, `login_cnt`, `reg_ip`, `last_ip`) VALUES
+	(1, 'test', '$2b$10$XuAwdAKMowmyqB8a/zLmr.2QHhMSWaOZpFoZgTsONwIRP12RjUejC', 'teacher', 'c4ex.net@gmail.com', NULL, NULL, '2025-04-16 07:29:41', '2025-04-16 07:29:41', 'A', 100, NULL, NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
-
--- Post 테이블 생성
-CREATE TABLE posts (
-    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '게시글 ID',
-    title VARCHAR(255) NOT NULL COMMENT '게시글 제목',
-    content TEXT NOT NULL COMMENT '게시글 내용',
-    isSecret BOOLEAN DEFAULT FALSE COMMENT '비밀글 여부',
-    likes INT DEFAULT 0 COMMENT '좋아요 수',
-    author INT COMMENT '작성자 (users 테이블의 user_id 참조)',
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '작성일',
-    attachments TEXT COMMENT '첨부 파일 (파일명 저장)',
-    FOREIGN KEY (author) REFERENCES users(user_id)
-);
